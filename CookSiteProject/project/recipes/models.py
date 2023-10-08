@@ -18,5 +18,5 @@ class Recipe(models.Model):
         return ' '.join([
             self.recipe_name,
             self.recipe_ingredients,
-            self.recipe_process
+            self.recipe_process,
         ])
