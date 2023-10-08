@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'recipes',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +78,7 @@ WSGI_APPLICATION = 'cookbooksite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'C:/Users/User/DiskD/cookbooksite.db', #BASE_DIR / 'db.sqlite3', #os.path.join(BASE_DIR, 'address.db'), - так прописано в https://habr.com/ru/articles/240463/#chapter_01
     }
 }
 
