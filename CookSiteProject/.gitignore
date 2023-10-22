@@ -1,0 +1,5 @@
+.idea
+venv/
+*.xlsx
+project/cookbooksite/__pycache__
+project/recipes/__pycache__
