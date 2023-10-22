@@ -3,3 +3,5 @@ venv/
 *.xlsx
 project/cookbooksite/__pycache__
 project/recipes/__pycache__
+ __pycache__/
+ *.pyc

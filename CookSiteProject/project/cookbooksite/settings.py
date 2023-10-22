@@ -77,10 +77,15 @@ WSGI_APPLICATION = 'cookbooksite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'C:/Users/User/DiskD/cookbooksite.db', #BASE_DIR / 'db.sqlite3', #os.path.join(BASE_DIR, 'address.db'), - так прописано в https://habr.com/ru/articles/240463/#chapter_01
+        'ENGINE': 'django.db.backends.postgresql', #'postgresql_psycopg2', #'django.db.backends.sqlite3',
+        'NAME': 'CookBookSite', #BASE_DIR / 'db.sqlite3', #os.path.join(BASE_DIR, 'address.db'), - так прописано в https://habr.com/ru/articles/240463/#chapter_01
+        'USER': "postgres",
+        'PASSWORD': "",# DELETE FROM OPEN SOURCE
+        'HOST': "127.0.0.1",
+        'PORT': "5432",
     }
 }
+#C:\Program Files\PostgreSQL\15\data
 
 
 # Password validation
