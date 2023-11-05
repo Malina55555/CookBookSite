@@ -1,49 +1,70 @@
-from django.shortcuts import render,   redirect
+from django.shortcuts import render, redirect #?
+from django.views.generic import ListView #?
+from django.http import HttpResponse #?
+from django.db.models import Max
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-# Create your views here.
-
-from django.views.generic import ListView
+class InfoView(APIView): #test will be deleted
+    def get (self, request):
+        return Response({'name': 'John', 'surname': 'Jackson', 'age': 21})
 
 from .models import RecipeModel
-from django.http import HttpResponse
+
+class RecipesInfoView(APIView): #test will be deleted
+    def get (self, request):
+        get_recipes = RecipeModel.objects.all()
+        # return Response({'get_recipes': get_recipes}) # may be this way, but backend worker doesnot how to change .js for this.
+        return render(request, 'norecipe.html', {'get_recipes': get_recipes})
+
+class MainView(APIView): #В теории html через js должен фильтровать то, какие рецепты будут показаны.
+    def get (self, request):
+        get_all_recipes = RecipeModel.objects.all()
+        return render(request, 'main.html', {'all_recipes': get_all_recipes})
+
+class NavigationView(APIView):
+    def get (self, request):
+        return render(request, 'navigation.html', {})
 
 
-def index(request):  # new
-      get_recipes = RecipeModel.objects.all()
-      return render(request, 'recipes/norecipe.html', {'get_recipes': get_recipes})
+# Далее views, связанные с аккаунтами
 
+from django.contrib.auth import authenticate, login, logout #?
+from django.contrib import messages #?
+from .models import UserModel
 
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
+class UserInfoView(APIView): #now working only for anton because .js(
+    def get (self, request):
+        get_anton = UserModel.objects.get(user_id=1) # dont use filter!!!
+        name = get_anton.user_name
+        email = get_anton.user_email
+        return Response({'name': name, 'email': email, 'password': '***'})
 
-def signIn(request):
-      if request.method == 'POST':
-            name = request.POST.get('name')
-            password = request.POST.get('password')
-            user = authenticate(request, name=name, password=password)
-            if user is not None:
-                  if user.is_active:
-                        login(request, user)
-                        return redirect('home')
-            else:
-                  messages.info(request, 'Имя пользователя или пароль введены неправильно')
-      context = {}
-      return render(request, 'recipes/signIn.html', context)
+class SignInView(APIView):
+    def post (self, request):
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+        user = authenticate(request, name=name, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('home')
+        else:
+            messages.info(request, 'Имя пользователя или пароль введены неправильно. Если у вас нет аккаунта - зарегистрируйтесь.') # Возможно нужно заменить на место в html под ошибки?
 
-def logout_user(request):
+class RegistaratoinView(APIView): # ПО НЕИЗВЕСТНОЙ БЭКЕНДЕРУ ПРИЧИНЕ НЕ РАБОТАЕТ
+    def get (self, request):
+        return render(request, "reg.html", {})
+    def post (self, request):
+        new_id = UserModel.objects.get(user_id=Max('user_id')) + 1
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        UserModel.objects.create(user_id=new_id, user_name=name, user_email=email, user_password=password)
+        return render(request, 'signIn.html', {'name': name})
+
+"""
+def logout_user(request): #no need
     logout(request)
     return redirect('home')
-
-
-
-
-#https://habr.com/ru/articles/242261/
-#class ListRecipeView(ListView):
-#       model = RecipeModel
-#      template_name = 'norecipe.html'
-
-            #HttpResponse(template_name) #('<h1>Django Include URLs</h1>')
-
-# https://codinggear.blog/django-include-urls/
-#from django.http import HttpResponse #new
-#
+"""

@@ -1,10 +1,11 @@
 <head>
 	CookBookSite - we get recipes!
 </head>
-<h1>Recipes</h1>
-
+<body>
+    <h1>Recipes</h1>
 <ul>
 	{% for recipe in get_recipes %}
 	<li class="recipe">{{ recipe }}</li>
 	{% endfor %}
 </ul>
+</body>

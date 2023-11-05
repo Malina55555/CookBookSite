@@ -24,8 +24,9 @@ SECRET_KEY = 'django-insecure-m@)1$*(r)a#xb$-g#19sdfoc+$rab%qaan=91-7ory-$66c%q9
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+# was updated 2 next lines
+ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL =True
 
 
 # Application definition
@@ -39,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'recipes',
+    'rest_framework', # will be deleted?
+    'corsheaders', #? (***)
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # was added, but can be deleted (watch *** in INSTALLED_APPS)
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True # was added?
 
 ROOT_URLCONF = 'cookbooksite.urls'
 
@@ -77,10 +83,10 @@ WSGI_APPLICATION = 'cookbooksite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', #'postgresql_psycopg2', #'django.db.backends.sqlite3',
-        'NAME': 'CookBookSite', #BASE_DIR / 'db.sqlite3', #os.path.join(BASE_DIR, 'address.db'), - так прописано в https://habr.com/ru/articles/240463/#chapter_01
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'CookBookSite',
         'USER': "postgres",
-        'PASSWORD': "",# DELETE FROM OPEN SOURCE
+        'PASSWORD': "",# DELETE FROM OPEN SOURCE !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         'HOST': "127.0.0.1",
         'PORT': "5432",
     }

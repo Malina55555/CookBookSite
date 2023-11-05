@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('recipes.urls')), #чтобы проект читал url приложений
+    path('admin/', admin.site.urls), #for admin doesnt use usually
+    path('', include('recipes.urls')), # from app named recipes, it is started at first when server is run
 ]
 
