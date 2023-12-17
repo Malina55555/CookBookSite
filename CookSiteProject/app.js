@@ -1,5 +1,5 @@
 const api_url =
-      "http://127.0.0.1:8000/api"
+      "http://127.0.0.1:8000"
 
 async function getapi(url) {
     const response = await fetch(url)
